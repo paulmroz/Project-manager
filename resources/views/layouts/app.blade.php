@@ -24,7 +24,7 @@
     <nav class="bg-white">
         <div class="container mx-auto">
             <div class="flex justify-between items-center py-4">
-                <span class="text-3xl">bird<strong class="bg-blue rounded" style="color: white">B</strong>oard</span>
+                <span class="text-3xl">Bird<strong class="bg-blue rounded" style="color: white">b</strong>oard</span>
 
     <strong></strong>
                 <div>
