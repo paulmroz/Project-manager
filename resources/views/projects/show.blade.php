@@ -44,9 +44,7 @@
                     <form action="{{$project->path()}}" method="post">
                         @csrf
                         @method('PATCH')
-                        <textarea class="card w-5/6 mb-6" name="notes">
-                            {{$project->notes}}
-                        </textarea>
+                        <textarea class="card w-5/6 mb-6" name="notes">{{$project->notes}}</textarea>
                         <div>
                             <button type="submit" class="button">Save</button>
                         </div>
