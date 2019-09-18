@@ -2,29 +2,13 @@
 
 @section('content')
 
-    <h1>Create a Project</h1>
+    <h1>Create your project</h1>
 
     <form method="POST" action="/projects">
+
         @csrf
+        @include('projects.form', ['project' => new App\Project, 'buttonText'=>'Create Project'])
 
-        <div>
-            <label>Title</label>
-            <div>
-                <input type="text" name="title"></input>
-            </div>
-
-        </div>
-
-        <div>
-            <label>Description</label>
-            <div>
-                <input type="text" name="description"></input>
-            </div>
-        </div>
-
-        <button type="submit">Create</button>
-
-        <a href="/projects">Cancel</a>
     </form>
 
 @endsection

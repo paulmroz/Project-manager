@@ -20,6 +20,8 @@ class ManageProjectsTest extends TestCase
 
         $this->get('/projects/create')->assertRedirect('login');
 
+        $this->get($project->path() . '/edit')->assertRedirect('login');
+
         $this->get($project->path())->assertRedirect('login');
 
         $this->post('/projects', $project->toArray())->assertRedirect('login');
@@ -45,8 +47,6 @@ class ManageProjectsTest extends TestCase
 
         $response->assertRedirect($project->path());
 
-        $this->assertDatabaseHas('projects', $attributes);
-
         $this->get($project->path())
             ->assertSee($attributes['title'])
             ->assertSee($attributes['description'])
@@ -63,11 +63,13 @@ class ManageProjectsTest extends TestCase
 
         $project = factory('App\Project')->create(['owner_id' => auth()->id()]);
 
-        $this->patch($project->path(), [
-            'notes' => 'Changed'
-        ])->assertRedirect($project->path());
+        $this->patch($project->path(),
+            $attributes = ['title' => 'Changed','description' => 'Changed','notes'=> 'Changed']
+        )->assertRedirect($project->path());
 
-        $this->assertDatabaseHas('projects',['notes'=> 'Changed']);
+        $this->get($project->path().'/edit')->assertStatus(200);
+
+        $this->assertDatabaseHas('projects', $attributes);
     }
     /** @test  */
     public function a_user_can_view_their_project()
