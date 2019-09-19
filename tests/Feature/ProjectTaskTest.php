@@ -27,7 +27,6 @@ class ProjectTaskTest extends TestCase
     /** @test */
     public function a_task_can_be_updated()
     {
-        $this->withoutExceptionHandling();
 
         $project = app(ProjectFactory::class)->ownedBy($this->signIn())->withTasks(1)->create();
 
@@ -35,9 +34,32 @@ class ProjectTaskTest extends TestCase
 
         $project = factory(Project::class)->create(['owner_id' => auth()->id()]);
 
-        $task = $project->addTask('Test task');
+        $project->addTask('Test task');
 
-        $this->patch($project->path() . '/tasks/'. $project->tasks[0]->id,[
+        $this->patch($project->tasks[0]->path(),[
+            'body' => 'changed'
+        ]);
+
+
+        $this->assertDatabaseHas('tasks',[
+            'body' => 'changed'
+        ]);
+
+    }
+
+    /** @test */
+    public function a_task_can_be_completed()
+    {
+
+        $project = app(ProjectFactory::class)->ownedBy($this->signIn())->withTasks(1)->create();
+
+        $this->signIn();
+
+        $project = factory(Project::class)->create(['owner_id' => auth()->id()]);
+
+        $project->addTask('Test task');
+
+        $this->patch($project->tasks[0]->path(),[
             'body' => 'changed',
             'completed' => true
         ]);
@@ -45,6 +67,34 @@ class ProjectTaskTest extends TestCase
         $this->assertDatabaseHas('tasks',[
             'body' => 'changed',
             'completed' => true
+        ]);
+
+    }
+
+    /** @test */
+    public function a_task_can_be_marked_as_incomplete()
+    {
+        $project = app(ProjectFactory::class)->ownedBy($this->signIn())->withTasks(1)->create();
+
+        $this->signIn();
+
+        $project = factory(Project::class)->create(['owner_id' => auth()->id()]);
+
+        $project->addTask('Test task');
+
+        $this->patch($project->tasks[0]->path(),[
+            'body' => 'changed',
+            'completed' => true
+        ]);
+
+        $this->patch($project->tasks[0]->path(),[
+            'body' => 'changed',
+            'completed' => false
+        ]);
+
+        $this->assertDatabaseHas('tasks',[
+            'body' => 'changed',
+            'completed' => false
         ]);
 
     }
