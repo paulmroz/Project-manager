@@ -7,7 +7,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ActivityFeedTest extends TestCase
+class TriggerActivityTest extends TestCase
 {
    use RefreshDatabase;
 
@@ -62,5 +62,38 @@ class ActivityFeedTest extends TestCase
 
     }
 
+    /** @test */
+    public function incompleting_a_task_records_project_activity()
+    {
+        $project = ProjectFactory::withTasks(1)->create();
+
+        $this->actingAs($project->owner)->patch($project->tasks[0]->path(), [
+            'body' => 'foobar',
+            'completed' => true
+        ]);
+
+        $this->assertCount(3, $project->activity);
+
+        $this->patch($project->tasks[0]->path(), [
+            'body' => 'foobar',
+            'completed' => false
+        ]);
+
+        $this->assertCount(4, $project->fresh()->activity);
+
+        $this->assertEquals('uncompleted_task', $project->fresh()->activity->last()->description);
+
+    }
+
+    /** @test */
+    public function deleting_a_task_records_project_activity()
+    {
+        $project = ProjectFactory::withTasks(1)->create();
+
+        $project->tasks[0]->delete();
+
+        $this->assertCount(3, $project->fresh()->activity);
+
+    }
 
 }
