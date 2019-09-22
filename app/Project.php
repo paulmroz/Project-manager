@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    protected  $guarded = [];
+    use RecordsActivity;
+
+    protected $guarded = [];
 
     public function path()
     {
@@ -18,7 +20,8 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function tasks(){
+    public function tasks()
+    {
         return $this->hasMany(Task::class);
     }
 
@@ -32,11 +35,4 @@ class Project extends Model
         return $this->hasMany(Activity::class)->latest();
     }
 
-
-    public function recordActivity($description)
-    {
-
-        $this->activity()->create(['description'=>$description]);
-
-    }
 }
