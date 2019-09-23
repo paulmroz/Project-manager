@@ -8,7 +8,16 @@
                 / {{$project->title}}
             </p>
 
-            <a href="{{$project->path().'/edit'}}" class="button">Edit Project</a>
+            <div class="flex items-center">
+                @foreach($project->members as $member)
+                    <img src="{{gravatars_url($member->email)}}" alt="{{$member->name}}'s avatar" class="rounded-full w-8 mr-1">
+                @endforeach
+
+                    <img src="{{gravatars_url($project->owner->email)}}" alt="{{$project->owner->name}}'s avatar" class="rounded-full w-8 mr-1">
+
+                    <a href="{{$project->path().'/edit'}}" class="button">Edit Project</a>
+
+            </div>
         </div>
     </header>
 
