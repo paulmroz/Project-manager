@@ -10,12 +10,14 @@
 
             <div class="flex items-center">
                 @foreach($project->members as $member)
-                    <img src="{{gravatars_url($member->email)}}" alt="{{$member->name}}'s avatar" class="rounded-full w-8 mr-1">
+                    <img src="{{gravatars_url($member->email)}}" alt="{{$member->name}}'s avatar"
+                         class="rounded-full w-8 mr-1">
                 @endforeach
 
-                    <img src="{{gravatars_url($project->owner->email)}}" alt="{{$project->owner->name}}'s avatar" class="rounded-full w-8 mr-1">
+                <img src="{{gravatars_url($project->owner->email)}}" alt="{{$project->owner->name}}'s avatar"
+                     class="rounded-full w-8 mr-1">
 
-                    <a href="{{$project->path().'/edit'}}" class="button">Edit Project</a>
+                <a href="{{$project->path().'/edit'}}" class="button">Edit Project</a>
 
             </div>
         </div>
@@ -59,6 +61,7 @@
                         </div>
 
                     </form>
+                    @include('errors')
                 </div>
             </div>
 
@@ -66,6 +69,10 @@
                 @include('projects.card')
 
                 @include('projects.activity.card')
+
+                @can('manage', $project)
+                    @include('projects.invite')
+                @endcan
             </div>
         </div>
     </main>

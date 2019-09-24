@@ -5,31 +5,20 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 class ProjectInvitationRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
+    protected $errorBag = 'invitations';
+
     public function authorize()
     {
-        return Gate::allows('update', $this->route('project'));
+        return Gate::allows('manage', $this->route('project'));
     }
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
+
     public function rules()
     {
         return [
             'email' => ['required', Rule::exists('users', 'email')]
         ];
     }
-    /**
-     * Get custom messages for validator errors.
-     *
-     * @return array
-     */
+
     public function messages()
     {
         return [
