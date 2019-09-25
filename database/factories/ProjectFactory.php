@@ -8,6 +8,8 @@ $factory->define(App\Project::class, function (Faker $faker) {
 
         'description' => $faker->paragraph(4),
 
+        'notes' => 'Foobar notes',
+
         'owner_id' => function() {
             return factory(App\User::class)->create()->id;
         }

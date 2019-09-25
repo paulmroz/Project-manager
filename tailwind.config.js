@@ -363,8 +363,12 @@ module.exports = {
     | CSS property: background-color
     |
     */
-
-    backgroundColors: colors,
+    //backgroundColors: colors,
+    backgroundColors: {
+        page: 'var(--page-background-color)',
+        card: 'var(--card-background-color)',
+        button: 'var(--button-background-color)'
+    },
 
 
     /*

@@ -16,11 +16,18 @@
 
 
 .button {
-    @apply .bg-blue .text-white .no-underline .rounded-lg .text-sm .py-2 .px-5;
+    @apply .bg-button .text-white .no-underline .rounded-lg .text-sm .py-2 .px-5;
     box-shadow: 0 2px 7px 0 #b0eaff;
 }
 
 
 .card {
-    @apply .bg-white .p-5 .rounded-lg .shadow;
+    @apply .bg-card .p-5 .rounded-lg .shadow;
+}
+
+
+:root {
+    --page-background-color:#E1E6E8;
+    --card-background-color:white;
+    --button-background-color:#47cdff;
 }
